@@ -29,6 +29,15 @@ impl Document {
         )
     }
 
+    pub fn find(&self, query: &str) -> Option<Position> {
+        for (y, row) in self.rows.iter().enumerate() {
+            if let Some(x) = row.find(query) {
+                return Some(Position { x, y });
+            }
+        }
+        None
+    }
+
     pub fn save(&mut self)->Result<(),Error>{
         if let Some(file_name) = &self.file_name{
             let mut file = fs::File::create(file_name)?;
